@@ -27,6 +27,8 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "0.0.0.0",
+    "localhost",
     "127.0.0.1",
 ]
 
@@ -137,7 +139,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = "/files/static"
 
 MEDIA_URL = "/media/"

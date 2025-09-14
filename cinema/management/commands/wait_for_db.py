@@ -1,7 +1,7 @@
 import time
 
 from django.core.management.base import BaseCommand
-from django.db import connection
+from django.db import connections
 from django.db.utils import OperationalError
 
 
@@ -9,18 +9,18 @@ class Command(BaseCommand):
     """Wait command for check if database ready to connect."""
 
     def handle(self, *args, **options):
-        print("Waiting for database...", flush=True)
+        self.stdout.write("Waiting for database...")
         conn = False
         delay = 5
+
         while not conn:
             try:
-                cursor = connection.cursor()
-                if cursor:
-                    conn = True
+                connections["default"].ensure_connection()
+                conn = True
             except OperationalError:
-                print(
-                    f"Database is not ready. Next try after {delay} seconds",
-                    flush=True
+                self.stdout.write(
+                    f"Database is not ready. Next try after {delay} seconds"
                 )
                 time.sleep(delay)
-        print("Database is ready. Starting app...", flush=True)
+
+        self.stdout.write("Database is ready. Starting app...")
